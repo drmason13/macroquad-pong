@@ -1,9 +1,9 @@
+pub mod consts;
 pub mod pong;
 pub mod systems;
-pub mod consts;
 
 pub use consts::*;
-pub use pong::{Paddle, Ball, Side};
+pub use pong::{Ball, Paddle, Side};
 pub use systems::collision;
 
 use macroquad::*;
@@ -35,14 +35,24 @@ pub trait Update {
 }
 
 pub fn init_balls(state: &mut State) -> Vec<Ball> {
-    vec![
-        Ball::new(screen_width() * 0.5, state.screen_height * 0.5, vec2(7.0, 5.0)),
-    ]
+    vec![Ball::new(
+        state.screen_width * 0.5,
+        state.screen_height * 0.5,
+        vec2(7.0, 5.0),
+    )]
 }
 
 pub fn init_paddles(state: &mut State) -> Vec<Paddle> {
     vec![
-        Paddle::new(X_OFFSET + PADDLE_WIDTH * 2.0, state.screen_height* 0.5, Side::Left),
-        Paddle::new(screen_width() - X_OFFSET - PADDLE_WIDTH * 2.0, state.screen_height * 0.5, Side::Right),
+        Paddle::new(
+            X_OFFSET + PADDLE_WIDTH * 2.0,
+            state.screen_height * 0.5,
+            Side::Left,
+        ),
+        Paddle::new(
+            state.screen_width - X_OFFSET - PADDLE_WIDTH * 2.0,
+            state.screen_height * 0.5,
+            Side::Right,
+        ),
     ]
 }

@@ -1,7 +1,7 @@
-use macroquad::{Vec2, vec2, draw_rectangle, draw_circle, WHITE};
+use macroquad::{draw_circle, draw_rectangle, vec2, Vec2, WHITE};
 use macroquad::{is_key_down, KeyCode};
 
-use crate::{State, Render, Update, consts::*};
+use crate::{consts::*, Render, State, Update};
 
 #[derive(PartialEq, Clone)]
 pub enum Side {
@@ -28,7 +28,7 @@ impl Paddle {
         } else {
             KeyCode::W
         };
-        
+
         let down_key = if *side == Side::Right {
             KeyCode::Down
         } else {
@@ -47,7 +47,13 @@ impl Paddle {
 impl Render for Paddle {
     fn draw(&self) {
         // draw centered on x, y
-        draw_rectangle(self.x - PADDLE_WIDTH_HALF, self.y - PADDLE_HEIGHT_HALF, PADDLE_WIDTH, PADDLE_HEIGHT, WHITE)
+        draw_rectangle(
+            self.x - PADDLE_WIDTH_HALF,
+            self.y - PADDLE_HEIGHT_HALF,
+            PADDLE_WIDTH,
+            PADDLE_HEIGHT,
+            WHITE,
+        )
     }
 }
 
@@ -55,8 +61,12 @@ impl Update for Paddle {
     fn update(&mut self, state: &mut State) {
         let screen_height = state.screen_height;
         // clamp to screen
-        if self.y <= Y_OFFSET + PADDLE_HEIGHT_HALF { self.y = Y_OFFSET + PADDLE_HEIGHT_HALF }
-        if self.y >= screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF { self.y = screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF }
+        if self.y <= Y_OFFSET + PADDLE_HEIGHT_HALF {
+            self.y = Y_OFFSET + PADDLE_HEIGHT_HALF
+        }
+        if self.y >= screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF {
+            self.y = screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF
+        }
     }
 }
 
@@ -70,7 +80,12 @@ pub struct Ball {
 
 impl Ball {
     pub fn new(x: f32, y: f32, vel: Vec2) -> Self {
-        Ball { pos: vec2(x, y), vel, timer: None, spawn: vec2(x, y) }
+        Ball {
+            pos: vec2(x, y),
+            vel,
+            timer: None,
+            spawn: vec2(x, y),
+        }
     }
 }
 
@@ -85,11 +100,7 @@ impl Update for Ball {
         // move
         if let Some(t) = self.timer {
             // TODO: actual you know, timing
-            self.timer = if t <= 0.0 {
-                None
-            } else {
-                Some(t - 0.3)
-            };
+            self.timer = if t <= 0.0 { None } else { Some(t - 0.3) };
         } else {
             // move if not frozen (currently the only use for timer)
             // TODO: add a Status enum so that we can do arbitrary things to balls for a duration using the same timer... hmm, thinking about that, we'll need multiple timers :(
