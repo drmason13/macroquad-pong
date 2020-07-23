@@ -35,7 +35,10 @@ impl State {
             game_top,
             game_bottom,
             score: (0, 0),
-            score_pos: (game_left + GAME_WIDTH * 0.5 - score_width * 0.5, game_top - score_height * 2.0),
+            score_pos: (
+                game_left + GAME_WIDTH * 0.5 - score_width * 0.5,
+                game_top - score_height * 2.0,
+            ),
             score_text,
         }
     }
