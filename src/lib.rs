@@ -11,19 +11,24 @@ use macroquad::*;
 pub struct State {
     pub screen_height: f32,
     pub screen_width: f32,
-    pub score: (u32, u32),
+    pub score: (u8, u8),
+    pub score_pos: (f32, f32),
     pub score_text: String,
-    pub font_size: f32,
 }
 
 impl State {
-    pub fn new(score_text: String, font_size: f32) -> Self {
+    pub fn new() -> Self {
+        // cache (?) score text in state since we draw it every frame but change it much less frequently
+        let score_text = format!("{:<3}:{:>3}", 0, 0);  
         State {
             screen_height: screen_height(),
             screen_width: screen_width(),
             score: (0, 0),
+            score_pos: (
+                screen_width() * 0.5 - measure_text(&score_text, SCORE_FONT_SIZE).0 * 0.5,  // x
+                Y_OFFSET + PADDLE_WIDTH                                                     // y
+            ),
             score_text,
-            font_size, 
         }
     }
 }
