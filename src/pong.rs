@@ -1,4 +1,4 @@
-use macroquad::{Vec2, vec2, draw_rectangle, draw_circle, draw_text, WHITE, GREEN};
+use macroquad::{Vec2, vec2, draw_rectangle, draw_circle, WHITE};
 use macroquad::{is_key_down, KeyCode};
 
 use crate::{State, Render, Update, consts::*};
@@ -23,13 +23,13 @@ impl Paddle {
     }
 
     pub fn input(&mut self, side: &Side) {
-        let up_key = if *side == Side::Left {
+        let up_key = if *side == Side::Right {
             KeyCode::Up
         } else {
             KeyCode::W
         };
         
-        let down_key = if *side == Side::Left {
+        let down_key = if *side == Side::Right {
             KeyCode::Down
         } else {
             KeyCode::S
@@ -77,8 +77,6 @@ impl Ball {
 impl Render for Ball {
     fn draw(&self) {
         draw_circle(self.pos.x(), self.pos.y(), BALL_RADIUS, WHITE);
-        // DEBUG!
-        draw_text(&format!("{:#?}", self), 0.0, Y_OFFSET + 10.0, 20.0, GREEN);
     }
 }
 
