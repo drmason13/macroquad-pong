@@ -121,7 +121,7 @@ impl Update for Ball {
 
         let left = state.game_left + BALL_RADIUS;
         let right = state.game_right - BALL_RADIUS;
-        
+
         if x < left {
             // off left side, right side scores
             state.score.1 += 1;
