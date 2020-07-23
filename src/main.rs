@@ -23,8 +23,8 @@ async fn main() {
         
         for e in &mut paddles {
             e.draw();
-            e.update(&mut state);
             e.input(&(e.side).clone());
+            e.update(&mut state);
         }
 
         // bounce balls

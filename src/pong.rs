@@ -55,8 +55,8 @@ impl Update for Paddle {
     fn update(&mut self, state: &mut State) {
         let screen_height = state.screen_height;
         // clamp to screen
-        if self.y <= Y_OFFSET { self.y = Y_OFFSET }
-        if self.y >= screen_height - Y_OFFSET { self.y = screen_height - Y_OFFSET }
+        if self.y <= Y_OFFSET + PADDLE_HEIGHT_HALF { self.y = Y_OFFSET + PADDLE_HEIGHT_HALF }
+        if self.y >= screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF { self.y = screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF }
     }
 }
 
