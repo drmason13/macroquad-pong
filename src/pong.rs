@@ -59,13 +59,14 @@ impl Render for Paddle {
 
 impl Update for Paddle {
     fn update(&mut self, state: &mut State) {
-        let screen_height = state.screen_height;
-        // clamp to screen
-        if self.y <= Y_OFFSET + PADDLE_HEIGHT_HALF {
-            self.y = Y_OFFSET + PADDLE_HEIGHT_HALF
+        let top = state.game_top + PADDLE_HEIGHT_HALF;
+        let bottom = state.game_bottom - PADDLE_HEIGHT_HALF;
+        // clamp to game area
+        if self.y <= top {
+            self.y = top
         }
-        if self.y >= screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF {
-            self.y = screen_height - Y_OFFSET - PADDLE_HEIGHT_HALF
+        if self.y >= bottom {
+            self.y = bottom
         }
     }
 }
@@ -86,6 +87,15 @@ impl Ball {
             timer: None,
             spawn: vec2(x, y),
         }
+    }
+
+    fn respawn(&mut self) {
+        // respawn where we were first made
+        self.pos = self.spawn;
+        // freeze for a bit
+        self.timer = Some(5.0);
+        // reverse direction
+        *self.vel.x_mut() *= -1.0;
     }
 }
 
@@ -109,26 +119,19 @@ impl Update for Ball {
         // score and respawn
         let x = self.pos.x();
 
-        // respawn
-        let mut respawn = || {
-            // respawn where we were first made
-            self.pos = self.spawn;
-            // freeze for a bit
-            self.timer = Some(5.0);
-            // reverse direction
-            *self.vel.x_mut() *= -1.0;
-        };
-
-        if x < X_OFFSET {
+        let left = state.game_left + BALL_RADIUS;
+        let right = state.game_right - BALL_RADIUS;
+        
+        if x < left {
             // off left side, right side scores
             state.score.1 += 1;
             state.score_text = format!("{:<3}:{:>3}", state.score.0, state.score.1);
-            respawn();
-        } else if x > state.screen_width - X_OFFSET {
+            self.respawn();
+        } else if x > right {
             // off right side, left side scores
             state.score.0 += 1;
             state.score_text = format!("{:<3}:{:>3}", state.score.0, state.score.1);
-            respawn();
+            self.respawn();
         }
     }
 }

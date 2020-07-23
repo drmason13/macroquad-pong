@@ -17,11 +17,12 @@ async fn main() {
 
     loop {
         clear_background(BLACK);
+        // draw the borders that balls and paddles bounce off around the game area
         draw_rectangle_lines(
-            X_OFFSET,
-            Y_OFFSET,
-            state.screen_width - 2.0 * X_OFFSET,
-            state.screen_height - 2.0 * Y_OFFSET,
+            state.game_left,
+            state.game_top,
+            GAME_WIDTH,
+            GAME_HEIGHT,
             PADDLE_WIDTH,
             WHITE,
         );

@@ -26,8 +26,10 @@ pub fn bounce_paddle(ball: &mut Ball, paddle: &mut Paddle, _state: &mut State) {
 }
 
 pub fn bounce_wall(ball: &mut Ball, state: &mut State) {
-    if (ball.pos.y() < Y_OFFSET + BALL_RADIUS && ball.vel.y() < 0.0)
-        || (ball.pos.y() > state.screen_height - Y_OFFSET - BALL_RADIUS && ball.vel.y() > 0.0)
+    let top = state.game_top + BALL_RADIUS;
+    let bottom = state.game_bottom - BALL_RADIUS;
+    if (ball.pos.y() < top && ball.vel.y() < 0.0)
+        || (ball.pos.y() > bottom && ball.vel.y() > 0.0)
     {
         *ball.vel.y_mut() *= -1.0;
     }
