@@ -12,14 +12,18 @@ pub struct State {
     pub screen_height: f32,
     pub screen_width: f32,
     pub score: (u32, u32),
+    pub score_text: String,
+    pub font_size: f32,
 }
 
 impl State {
-    pub fn new() -> Self {
+    pub fn new(score_text: String, font_size: f32) -> Self {
         State {
             screen_height: screen_height(),
             screen_width: screen_width(),
             score: (0, 0),
+            score_text,
+            font_size, 
         }
     }
 }

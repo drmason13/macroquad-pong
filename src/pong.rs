@@ -122,10 +122,12 @@ impl Update for Ball {
         if x < X_OFFSET {
             // off left side, right side scores
             state.score.1 += 1;
+            state.score_text = format!("{:<3}:{:>3}", state.score.0, state.score.1);
             respawn();
         } else if x > state.screen_width - X_OFFSET {
             // off right side, left side scores
             state.score.0 += 1;
+            state.score_text = format!("{:<3}:{:>3}", state.score.0, state.score.1);
             respawn();
         }
     }

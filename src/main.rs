@@ -9,8 +9,12 @@ use pong::{init_balls, init_paddles};
 
 #[macroquad::main("BasicShapes")]
 async fn main() {
-    // initialises a default state with screen width, height
-    let mut state = State::new();
+    // cache (?) score text in state since we draw it every frame but change it much less frequently
+    let score_text = format!("{:<3}:{:>3}", 0, 0);
+    let font_size = 72.0;
+
+    // initialises a state with screen width, height
+    let mut state = State::new(score_text, font_size);
 
     let mut balls = init_balls(&mut state);
     let mut paddles = init_paddles(&mut state);
@@ -48,11 +52,13 @@ async fn main() {
         }
 
         // draw score
+        let (text_width, _) = measure_text(&state.score_text, state.font_size);
+
         draw_text(
-            &format!("{:<10}:{:>10}", state.score.0, state.score.1),
-            state.screen_width * 0.5,
+            &state.score_text,
+            state.screen_width * 0.5 - text_width * 0.5,
             Y_OFFSET + 10.0,
-            30.0,
+            state.font_size,
             WHITE,
         );
 
